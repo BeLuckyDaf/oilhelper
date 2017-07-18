@@ -80,7 +80,7 @@ export default class Login extends Component {
 			
 					<TouchableOpacity onPressOut={this._Login} style={styles.buttonContainer}>
 						<View style={styles.submitButton} >
-							<Text style={styles.submitText}>Войти</Text>
+							<Text style={styles.submitText}>ВХОД</Text>
 						</View >
 					</TouchableOpacity>
 			
@@ -103,7 +103,8 @@ export default class Login extends Component {
 		this.props.navigation.dispatch(NavigationActions.reset({
 			index: 0,
 			actions: [
-				NavigationActions.navigate({ routeName: 'Loading', params: { username: this.state.username, password: this.state.password } }),
+				//NavigationActions.navigate({ routeName: 'Loading', params: { username: this.state.username, password: this.state.password } }),
+				NavigationActions.navigate({ routeName: 'Content', params: { key: 0, prkey: 0 } }),
 			]
 		}));
 	}
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
 		marginTop: 0,
 		borderWidth: 1,
 		borderColor: '#171717',
-		backgroundColor: '#171717',
+		backgroundColor: 'rgba(23,23,23,0.9)',
 		height: 52,
 		width: '80%',
 		borderRadius: 10,
@@ -129,8 +130,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row'
   	},
   	submitText: {
-    	fontSize: 22,
-    	color: '#cfcfcf',
+    	fontSize: 18,
+    	color: '#dfdfdf',
   	},
   	buttonContainer: {
 		width: '100%',

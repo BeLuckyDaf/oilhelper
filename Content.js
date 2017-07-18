@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, AsyncStorage, SectionList, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, AsyncStorage, FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Button, CheckBox } from 'react-native-elements';
 
 const db = require('./data.json');
@@ -12,7 +12,7 @@ export default class Content extends Component {
     }
 
     static navigationOptions = ({navigation}) => ({
-        title: navigation.state.params.text,
+        title: db.ROOMS[0].PROBLEMS[0].TITLE,
     })
 
     // Makes the menu re-render
@@ -20,21 +20,37 @@ export default class Content extends Component {
         AsyncStorage.setItem('updated', 'false');
     }
 
+
+    // DATA ARRAY FOR THE FLATLIST
     sect = []
 
     componentWillMount() {
+        // params.key - room key; params.prkey - problem key
+        // TODO: Define prkey in the previous room (fucking important)
+        // Gonna use 0 for debug purposes
         let {params} = this.props.navigation.state;
-        let roomData = db.ROOMS[params.key];
-        //let sect = [];
-        let pr = this.state.checks;
-        for (let i = 0; i <= roomData.TITLE.length-1; i++) {
-            this.sect.push({key: i, title: roomData.TITLE[i], data: [roomData.INFO[i]] });
-            pr[i] = false;
-        }
-        this.setState({checks: pr});
+        let roomData = db.ROOMS[0] //[params.key];
+        let problemData = roomData.PROBLEMS[0] //[params.prkey]
+        let pr = [];
+        // UNCOMMENT WHEN NOT DEBUGGING! \/ DOWN THERE!
+        AsyncStorage.getItem(params.key + '_' + params.prkey, (err, res) => {
+        //AsyncStorage.getItem('0_0', (err, res) => {
+            for (let i = 0; i < problemData.INFO.length; i++) {
+                //this.sect.push({key: i, title: problemData.TITLE, data: [problemData.INFO[i]] });
+                this.sect.push({key: i, data: problemData.INFO[i] });
+                if (res && !err)
+                    pr[i] = res[i] === 't' ? true : false;
+                else
+                    pr[i] = false;
+            }
+            //console.log(this.sect);
+            this.setState({checks: pr});
+        });
+        
     }
 
     render() {
+        let bg = require('./assets/bg/bg.png');
         //setTimeout(() => { console.log(db.ROOMS[0].TITLE[0]); console.log(db.ROOMS[0].INFO[0]); }, 3000);
         let {params} = this.props.navigation.state;
         // let roomData = db.ROOMS[params.key];
@@ -48,43 +64,39 @@ export default class Content extends Component {
         //this.setState({checks: pr});
         //console.log(sect);
         return (
-            <View style={{ flex: 1 }} backgroundColor="#fff">
-                <SectionList 
-                    sections={this.sect}
+            <Image source={bg} style={{ alignSelf: 'stretch', flex: 1 }}>
+                <FlatList
+                    data={this.sect} 
                     extraData={this.state}
-                    keyExtractor={(item) => {}}
-                    renderItem={({item, section}) => {
+                    renderItem={({item}) => {
                         return (
-                            <View style={{ flex: 1 }}>
-                            <Text style={styles.item}>{item}</Text>
+                            <View style={{ flex: 1, marginHorizontal: 10, backgroundColor: "rgba(255, 255, 255, 0.8)", borderRadius: 10,
+                                           marginVertical: 8 }}>
+                            <Text style={styles.item}>{item.data}</Text>
                             <CheckBox
-                                containerStyle={{ marginLeft: 0, width: '100%', backgroundColor: "rgba(255, 255, 255, 0)" }}
+                                checkedColor="#FF5722"
+                                containerStyle={{ marginLeft: 2, width: '100%', backgroundColor: "rgba(255, 255, 255, 0)", borderWidth: 0 }}
                                 title="Нет"
-                                checked={this.state.checks[section.key]}
+                                checked={this.state.checks[item.key]}
                                 onIconPress={() => {
                                     let pr = this.state.checks;
-                                    pr[section.key] = !pr[section.key]
+                                    pr[item.key] = !pr[item.key]
                                     this.setState(() => {return({checks: pr})});
                                 }}
                                 onPress={() => {
                                     let pr = this.state.checks;
-                                    pr[section.key] = !pr[section.key]
+                                    pr[item.key] = !pr[item.key]
                                     this.setState(() => {return({checks: pr})});
                                 }}
                             />
                             </View>
                         )
                     }}
-                    renderSectionHeader={({section}) => {
-                        return (
-                            <Text style={styles.sectionHeader}>{section.title}</Text>
-                        )
-                    }}
                 />
                 <TouchableOpacity style={{ backgroundColor: '#8AC74A', height: 56, alignItems: 'center', justifyContent: 'center' }} onPress={this.saveChecks}>
                     <Text style={{ fontSize: 18, color: 'white' }}>СОХРАНИТЬ И ВЫЙТИ</Text>
                 </TouchableOpacity> 
-            </View>
+            </Image>
         )
     }
 
@@ -96,11 +108,13 @@ export default class Content extends Component {
             let ch = value ? 't' : 'f';
             info += ch;
         })
-        AsyncStorage.setItem(params.key + '_ROOM', info);
+        // UNCOMMENT WHEN NOT DEBUGGING \/ DOWN THERE
+        //AsyncStorage.setItem(params.key + '_' + params.prkey, info);
+        AsyncStorage.setItem('0_0', info);
         this.needUpdate();
         console.log(info);
 
-        this.props.navigation.goBack();
+        //this.props.navigation.goBack();
     }
 }
 
@@ -115,7 +129,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     item: {
-        padding: 10,
-        fontSize: 12,
+        margin: 12,
+        fontSize: 14,
     },
 })
