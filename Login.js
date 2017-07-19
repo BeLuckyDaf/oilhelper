@@ -103,8 +103,8 @@ export default class Login extends Component {
 		this.props.navigation.dispatch(NavigationActions.reset({
 			index: 0,
 			actions: [
-				//NavigationActions.navigate({ routeName: 'Loading', params: { username: this.state.username, password: this.state.password } }),
-				NavigationActions.navigate({ routeName: 'Content', params: { key: 0, prkey: 0 } }),
+				NavigationActions.navigate({ routeName: 'Loading', params: { username: this.state.username, password: this.state.password } }),
+				//NavigationActions.navigate({ routeName: 'Loading'}),
 			]
 		}));
 	}

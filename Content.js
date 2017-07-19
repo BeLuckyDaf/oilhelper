@@ -12,12 +12,13 @@ export default class Content extends Component {
     }
 
     static navigationOptions = ({navigation}) => ({
-        title: db.ROOMS[0].PROBLEMS[0].TITLE,
+        title: db.ROOMS[navigation.state.params.key].PROBLEMS[navigation.state.params.prkey].TITLE,
     })
 
     // Makes the menu re-render
     needUpdate = () => {
-        AsyncStorage.setItem('updated', 'false');
+        AsyncStorage.setItem('updated_0', 'false');
+        AsyncStorage.setItem('updated_1', 'false');
     }
 
 
@@ -29,8 +30,8 @@ export default class Content extends Component {
         // TODO: Define prkey in the previous room (fucking important)
         // Gonna use 0 for debug purposes
         let {params} = this.props.navigation.state;
-        let roomData = db.ROOMS[0] //[params.key];
-        let problemData = roomData.PROBLEMS[0] //[params.prkey]
+        let roomData = db.ROOMS[params.key];
+        let problemData = roomData.PROBLEMS[params.prkey]
         let pr = [];
         // UNCOMMENT WHEN NOT DEBUGGING! \/ DOWN THERE!
         AsyncStorage.getItem(params.key + '_' + params.prkey, (err, res) => {
@@ -70,7 +71,7 @@ export default class Content extends Component {
                     extraData={this.state}
                     renderItem={({item}) => {
                         return (
-                            <View style={{ flex: 1, marginHorizontal: 10, backgroundColor: "rgba(255, 255, 255, 0.8)", borderRadius: 10,
+                            <View style={{ flex: 1, marginHorizontal: 8, backgroundColor: "rgba(255, 255, 255, 0.8)", borderRadius: 10,
                                            marginVertical: 8 }}>
                             <Text style={styles.item}>{item.data}</Text>
                             <CheckBox
@@ -109,12 +110,12 @@ export default class Content extends Component {
             info += ch;
         })
         // UNCOMMENT WHEN NOT DEBUGGING \/ DOWN THERE
-        //AsyncStorage.setItem(params.key + '_' + params.prkey, info);
-        AsyncStorage.setItem('0_0', info);
+        AsyncStorage.setItem(params.key + '_' + params.prkey, info);
+        //AsyncStorage.setItem('0_0', info);
         this.needUpdate();
         console.log(info);
 
-        //this.props.navigation.goBack();
+        this.props.navigation.goBack();
     }
 }
 

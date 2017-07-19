@@ -3,11 +3,11 @@ import { Text, View, AsyncStorage, TouchableOpacity, FlatList, StyleSheet } from
 import { List, ListItem, Button } from 'react-native-elements';
 import { NavigationActions, StackNavigator } from 'react-navigation';
 
-import Loading from './Loading';
+import Content from './Content';
 
 const db = require('./data.json');
 
-export default class Menu extends Component {
+export default class ContentMenu extends Component {
 
     constructor(props) {
         super(props);
@@ -20,33 +20,16 @@ export default class Menu extends Component {
     }
     
     static navigationOptions = ( {navigation} ) => ({
-        title: 'Меню',
-        headerLeft: (
-            <Button 
-                textStyle={{ fontSize: 18, color: '#1E90FF' }} 
-                backgroundColor='rgba(255, 255, 255, 0)' 
-                title='Выход' 
-                buttonStyle={{ padding: 0 }}
-                onPress={() => {
-                    AsyncStorage.clear((err) => {
-                        dropReset = NavigationActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({routeName: 'Loading', params: { username: null, password: null }})
-                            ]
-                        });
-                        navigation.dispatch(dropReset);
-                    });
-            }}/>
-        )
+        title: navigation.state.params.text,
     });
 
     proceedToContent = (item) => {
         if (!this.state.isNavigating) {
             this.state.isNavigating = true;
-            this.props.navigation.navigate('ContentMenu', {
+            this.props.navigation.navigate('Content', {
                 text: item.text,
-                key: item.key,
+                key: this.props.navigation.state.params.key,
+                prkey: item.key,
             });
             setTimeout(this.toggleNavigation.bind(this), 700);
         }
@@ -58,49 +41,53 @@ export default class Menu extends Component {
 
     updateStorage() {
         AsyncStorage.getAllKeys((err, keys) => {
+            //console.log(keys + " (KEYS CONTENT MENU)");
+            let {params} = this.props.navigation.state;
+            //console.log(params.key + " (PARAMS.KEY CONTENT MENU)");
             let allKeys = []
             keys.map((v, i) => {
-                if ('0123456789'.includes(v[0]) && !allKeys.includes(parseInt(v[0]))) {
+                if ('0123456789'.includes(v[2]) && !allKeys.includes(parseInt(v[2])) && v[0] == params.key) {
                     AsyncStorage.getItem(v, (err, res) => {
+                        //console.log(res + "(CONTENT MENU)");
                         if (res.includes('t')) {
-                            allKeys.push(parseInt(v[0]));
-                            //console.log("ADDED ONE (MENU)");  
+                            allKeys.push(parseInt(v[2]));
+                            //console.log("ADDED ONE (CONTENT MENU)");  
                         }
                     });
                 }
             })
             setTimeout(() => {
-                //console.log("ALLKEYS (MENU): " + allKeys);
+                //console.log(allKeys + " (ALL KEYS CONTENT MENU)");
                 if (this.state.keys !== allKeys)
                     this.setState({keys: allKeys});
-                AsyncStorage.setItem('updated_0', 'true');
-                console.log('Updated_0');
+                AsyncStorage.setItem('updated_1', 'true');
+                console.log('Updated_1');
             }, 100);
         })
     }
-
+    
     rows = []
     _mounted = false;
 
     componentWillMount() {
         let {params} = this.props.navigation.state;
-        for (let i = 0; i < db.ROOMS.length; i++) {
-            this.rows.push({key: i, text: db.ROOMS[i].NAME});
+        for (let i = 0; i < db.ROOMS[params.key].PROBLEMS.length; i++) {
+            this.rows.push({key: i, text: db.ROOMS[params.key].PROBLEMS[i].TITLE});
         }
-    }
-
-    componentDidMount() {
-        this._mounted = true;
-        this.updateStorage();
-        setInterval(() => {
-            AsyncStorage.getItem('updated_0', (err, res) => {
-                if(res == 'false') this.updateStorage();
-            });
-        }, 1000);
     }
 
     componentWillUnmount() {
         this._mounted = false;
+    }
+
+    componentDidMount() {
+        this.updateStorage();
+        setInterval(() => {
+            AsyncStorage.getItem('updated_1', (err, res) => {
+                if(res == 'false' && this._mounted) this.updateStorage();
+            });
+        }, 200);
+        this._mounted = true;
     }
 
     render() {
@@ -116,6 +103,7 @@ export default class Menu extends Component {
                         if (this.state.keys.includes(item.key))
                             err = 1;
                         return (<ListItem
+                            titleNumberOfLines={2}
                             title={item.text}
                             titleStyle={{ fontSize: 18 }}
                             subtitle={message[err]}
@@ -124,11 +112,6 @@ export default class Menu extends Component {
                         />)
                     }}
                 />
-                {/*<Button title='ОТПРАВИТЬ' buttonStyle={{ width: '100%', 
-                height: 56, backgroundColor: '#1E90FF' }}/>*/}
-                <TouchableOpacity style={{ backgroundColor: '#2096F3', height: 56, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 18, color: 'white' }}>ЗАКОНЧИТЬ</Text>
-                </TouchableOpacity>
             </View>
         )
     }

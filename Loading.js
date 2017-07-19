@@ -29,8 +29,7 @@ export default class Loading extends Component {
         this.props.navigation.dispatch(dropReset);
     }
 
-    proceedToMenu = (username) => {
-        //this.setState({ username });
+    proceedToMenu = () => {
         proceedReset = NavigationActions.reset({
             index: 0,
             actions: [
@@ -39,6 +38,37 @@ export default class Loading extends Component {
         });
 
         this.props.navigation.dispatch(proceedReset);
+    }
+
+    proceedToLocSettings = (username) => {
+
+        proceedReset = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({routeName: 'LocationSettings'})
+            ]
+        });
+
+        //AsyncStorage.getAllKeys((err, keys) => console.log(keys));
+
+        let keys = ['loc_mr', 'loc_kp', 'loc_tb', 'loc_bp']
+        AsyncStorage.multiGet(keys, (errs, stores) => {
+            console.log(stores);
+            let notdone = false;
+            for (let i = 0; i < keys.length; i++)
+                if (stores[i][1] == null || stores[i][1] == "") {
+                    notdone = true;
+                    break;
+                }
+            if (errs)
+                this.props.navigation.dispatch(proceedReset);
+            else if (notdone)
+                this.props.navigation.dispatch(proceedReset);
+            else
+                this.proceedToMenu();
+        });
+
+        
     }
 
     componentDidMount() {
@@ -57,14 +87,15 @@ export default class Loading extends Component {
                 //     this.dropback(1, 'Ошибка чтения');
                 // });
                 // ANOTHER DEBUG
-                AsyncStorage.setItem('updated', 'true');
+                AsyncStorage.setItem('updated_0', 'true');
 
                 AsyncStorage.getItem('loggedin', (err, result) => {
                     if (err) this.dropback(1, 'Ошибка чтения');
                     if (result === null) this.dropback(0, "НЕТ ДАННЫХ")
                     else {
                         // GO TO THE MENU
-                        this.proceedToMenu(result);            
+                        //this.proceedToMenu(result);            
+                        this.proceedToLocSettings();
                     }        
                 });
 
@@ -89,7 +120,8 @@ export default class Loading extends Component {
                     if (res.success === true) {
                         var username = res.message;
                         AsyncStorage.setItem('loggedin', username);
-                        this.proceedToMenu(username);
+                        //this.proceedToMenu();
+                        this.proceedToLocSettings();
                     } else {
                         this.dropback(1, 'Неправильный логин/пароль!');
                     }

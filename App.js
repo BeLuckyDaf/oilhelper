@@ -6,6 +6,8 @@ import Login from './Login';
 import Loading from './Loading';
 import Menu from './Menu';
 import Content from './Content';
+import ContentMenu from './ContentMenu';
+import LocationSettings from './LocationSettings';
 
 class App extends Component {
     
@@ -35,6 +37,12 @@ export default StackNavigator({
     Content: {
         screen: Content, 
     },
+    ContentMenu: {
+        screen: ContentMenu
+    },
+    LocationSettings: {
+        screen: LocationSettings
+    }
 });
 
 Expo.registerRootComponent(App);
