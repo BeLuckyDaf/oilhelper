@@ -83,13 +83,13 @@ export default class Loading extends Component {
             if (username === null || password === null) {
 
                 // DEBUG
-                // AsyncStorage.removeItem('loggedin', (err) => {
+                // AsyncStorage.removeItem('email', (err) => {
                 //     this.dropback(1, 'Ошибка чтения');
                 // });
                 // ANOTHER DEBUG
                 AsyncStorage.setItem('updated_0', 'true');
 
-                AsyncStorage.getItem('loggedin', (err, result) => {
+                AsyncStorage.getItem('email', (err, result) => {
                     if (err) this.dropback(1, 'Ошибка чтения');
                     if (result === null) this.dropback(0, "НЕТ ДАННЫХ")
                     else {
@@ -103,7 +103,7 @@ export default class Loading extends Component {
                 this.dropback(1, 'Ошибка входа: логин и пароль - обязательные для заполнения поля!');
             } else {
                 // LOGGING IN
-                fetch('http://192.168.1.203:3000/users', {
+                fetch('http://139.59.154.229:3000/users', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -119,7 +119,7 @@ export default class Loading extends Component {
 
                     if (res.success === true) {
                         var username = res.message;
-                        AsyncStorage.setItem('loggedin', username);
+                        AsyncStorage.setItem('email', username);
                         //this.proceedToMenu();
                         this.proceedToLocSettings();
                     } else {

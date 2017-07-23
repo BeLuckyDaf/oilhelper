@@ -1,4 +1,3 @@
-import { Constants } from 'expo';
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator, Image } from 'react-native';
 import { NavigationActions } from 'react-navigation';
@@ -49,7 +48,7 @@ export default class Login extends Component {
 
 		return (
 			<Image source={bg} style={{ alignSelf: 'stretch', flex: 1 }}>
-				<View style={{ height: 80 }} />
+				<View style={{ height: 60 }} />
       			<KeyboardAvoidingView behavior='padding' style={styles.container}>
         			<TextInput
           				keyboardType='default'
@@ -60,7 +59,7 @@ export default class Login extends Component {
 						placeholderTextColor='#ddd'
 						value={this.state.username}
 						onChangeText={this._handleTextChange}
-						style={{ width: '80%', height: 44, paddingLeft: 16, borderRadius: 10, marginLeft: '10%', backgroundColor: 'rgba(0,0,0,0.4)', color: '#eee' }}/>
+						style={{ width: '80%', height: 44, paddingLeft: 16, borderRadius: 10, backgroundColor: 'rgba(0,0,0,0.4)', color: '#eee' }}/>
         
 					<TextInput
 						autoCapitalize='none'
@@ -72,7 +71,7 @@ export default class Login extends Component {
 						secureTextEntry={true}
 						onSubmitEditing={this._Login}
 						returnKeyType='go'
-						style={{ width: '80%', height: 44, paddingLeft: 16, borderColor: '#d4d4d4', borderWidth: 0, borderRadius: 10, marginLeft: '10%', marginTop: 16, backgroundColor: 'rgba(0,0,0,0.4)', color: '#eee' }}/>
+						style={{ width: '80%', height: 44, paddingLeft: 16, borderColor: '#d4d4d4', borderWidth: 0, borderRadius: 10, marginTop: 16, backgroundColor: 'rgba(0,0,0,0.4)', color: '#eee' }}/>
         
 					<View style={{ height: 64, alignItems: 'center', justifyContent: 'center' }}>
 						<ActivityIndicator animating={this.state.checking} size='large'/>
@@ -115,7 +114,6 @@ const styles = StyleSheet.create({
     	flex: 1,
     	alignItems: 'center',
     	justifyContent: 'center',
-    	paddingTop: Constants.statusBarHeight,
   	},
   	submitButton: {
 		marginTop: 0,

@@ -8,6 +8,7 @@ import Menu from './Menu';
 import Content from './Content';
 import ContentMenu from './ContentMenu';
 import LocationSettings from './LocationSettings';
+import Report from './Report';
 
 class App extends Component {
     
@@ -42,6 +43,9 @@ export default StackNavigator({
     },
     LocationSettings: {
         screen: LocationSettings
+    },
+    Report: {
+        screen: Report
     }
 });
 

@@ -44,7 +44,7 @@ export default class LocationSettings extends Component {
 						placeholderTextColor='#ddd'
 						value={this.state.mr}
 						onChangeText={this._handleMrChange}
-						style={{ marginHorizontal: 16, height: 44, paddingLeft: 16, borderRadius: 10, backgroundColor: 'rgba(0,0,0,0.4)', color: '#eee', marginBottom: 8 }}
+						style={{ marginHorizontal: 16, height: 44, paddingLeft: 16, borderRadius: 10, backgroundColor: 'rgba(0,0,0,0.4)', color: '#eee', marginBottom: 8, width: "80%" }}
                     />
                     <TextInput
           				keyboardType='default'
@@ -55,7 +55,7 @@ export default class LocationSettings extends Component {
 						placeholderTextColor='#ddd'
 						value={this.state.kp}
 						onChangeText={this._handleKpChange}
-						style={{ marginHorizontal: 16, height: 44, paddingLeft: 16, borderRadius: 10, backgroundColor: 'rgba(0,0,0,0.4)', color: '#eee', marginBottom: 8 }}
+						style={{ marginHorizontal: 16, height: 44, paddingLeft: 16, borderRadius: 10, backgroundColor: 'rgba(0,0,0,0.4)', color: '#eee', marginBottom: 8, width: "80%" }}
                     />
                     <TextInput
           				keyboardType='default'
@@ -66,7 +66,7 @@ export default class LocationSettings extends Component {
 						placeholderTextColor='#ddd'
 						value={this.state.tb}
 						onChangeText={this._handleTbChange}
-						style={{ marginHorizontal: 16, height: 44, paddingLeft: 16, borderRadius: 10, backgroundColor: 'rgba(0,0,0,0.4)', color: '#eee', marginBottom: 8 }}
+						style={{ marginHorizontal: 16, height: 44, paddingLeft: 16, borderRadius: 10, backgroundColor: 'rgba(0,0,0,0.4)', color: '#eee', marginBottom: 8, width: "80%" }}
                     />
                     <TextInput
           				keyboardType='default'
@@ -77,7 +77,7 @@ export default class LocationSettings extends Component {
 						placeholderTextColor='#ddd'
 						value={this.state.bp}
 						onChangeText={this._handleBpChange}
-						style={{ marginHorizontal: 16, height: 44, paddingLeft: 16, borderRadius: 10, backgroundColor: 'rgba(0,0,0,0.4)', color: '#eee', marginBottom: 8 }}
+						style={{ marginHorizontal: 16, height: 44, paddingLeft: 16, borderRadius: 10, backgroundColor: 'rgba(0,0,0,0.4)', color: '#eee', marginBottom: 8, width: "80%" }}
                     />
 			
 					<TouchableOpacity onPressOut={this._Continue} style={styles.buttonContainer}>
@@ -85,6 +85,7 @@ export default class LocationSettings extends Component {
 							<Text style={styles.submitText}>ПРОДОЛЖИТЬ</Text>
 						</View >
 					</TouchableOpacity>
+					<View style={{ height: 64 }} />
       			</KeyboardAvoidingView>
 	  		</Image>
         )

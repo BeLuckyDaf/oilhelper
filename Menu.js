@@ -52,6 +52,14 @@ export default class Menu extends Component {
         }
     } 
 
+    proceedToReport = () => {
+        if (!this.state.isNavigating) {
+            this.state.isNavigating = true;
+            this.props.navigation.navigate('Report');
+            setTimeout(this.toggleNavigation.bind(this), 700);
+        }
+    } 
+
     toggleNavigation() {
         this.state.isNavigating = false;
     } 
@@ -94,7 +102,7 @@ export default class Menu extends Component {
         this.updateStorage();
         setInterval(() => {
             AsyncStorage.getItem('updated_0', (err, res) => {
-                if(res == 'false') this.updateStorage();
+                if(res == 'false' && this._mounted) this.updateStorage();
             });
         }, 1000);
     }
@@ -126,7 +134,8 @@ export default class Menu extends Component {
                 />
                 {/*<Button title='ОТПРАВИТЬ' buttonStyle={{ width: '100%', 
                 height: 56, backgroundColor: '#1E90FF' }}/>*/}
-                <TouchableOpacity style={{ backgroundColor: '#2096F3', height: 56, alignItems: 'center', justifyContent: 'center' }}>
+                <TouchableOpacity style={{ backgroundColor: '#2096F3', height: 56, alignItems: 'center', justifyContent: 'center' }}
+                                  onPress={this.proceedToReport}>
                     <Text style={{ fontSize: 18, color: 'white' }}>ЗАКОНЧИТЬ</Text>
                 </TouchableOpacity>
             </View>
