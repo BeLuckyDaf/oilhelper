@@ -65,7 +65,7 @@ export default class Content extends Component {
         //this.setState({checks: pr});
         //console.log(sect);
         return (
-            <Image source={bg} style={{ alignSelf: 'stretch', flex: 1 }}>
+            <Image source={bg} resizeMode='cover' style={{alignSelf: 'center', flex: 1, width: "100%"}}>
                 <FlatList
                     data={this.sect} 
                     extraData={this.state}

@@ -47,8 +47,8 @@ export default class Login extends Component {
 		}
 
 		return (
-			<Image source={bg} style={{ alignSelf: 'stretch', flex: 1 }}>
-				<View style={{ height: 60 }} />
+			<Image source={bg} resizeMode='cover' style={{alignSelf: 'center', flex: 1, width: "100%"}}>
+				<View style={{ flex: 1 }}style={{ height: 60 }} />
       			<KeyboardAvoidingView behavior='padding' style={styles.container}>
         			<TextInput
           				keyboardType='default'

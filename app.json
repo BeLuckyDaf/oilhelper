@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "oh",
-    "description": "An empty new project",
-    "slug": "oh",
+    "name": "oilhelper",
+    "description": "A helper for our brave engineers",
+    "slug": "oilhelper",
     "privacy": "public",
     "sdkVersion": "19.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
-    "icon": "./assets/icons/app-icon.png",
+    "icon": "./assets/icons/app.png",
     "loading": {
-      "icon": "./assets/icons/loading-icon.png",
+      "icon": "./assets/icons/loading.png",
       "hideExponentText": false
     },
     "packagerOpts": {
@@ -18,6 +18,9 @@
     },
     "ios": {
       "supportsTablet": true
-    }
+    },
+	"android": {
+		"package": "com.woodups.oilhelper",
+	}
   }
 }

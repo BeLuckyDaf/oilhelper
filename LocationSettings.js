@@ -33,7 +33,7 @@ export default class LocationSettings extends Component {
         let bg = require('./assets/bg/bg.png');
 
         return (
-            <Image source={bg} style={{ alignSelf: 'stretch', flex: 1 }}>
+            <Image source={bg} resizeMode='cover' style={{alignSelf: 'center', flex: 1, width: "100%"}}>
       			<KeyboardAvoidingView behavior='padding' style={styles.container}>
         			<TextInput
           				keyboardType='default'
